@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue du formulaire du wizard -->
+    <record id="view_situation_projet_wizard_form" model="ir.ui.view">
+        <field name="name">situation.projet.wizard.form</field>
+        <field name="model">situation.projet.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Générer la situation des projets">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_passage" required="1"/>
+                        </group>
+                    </group>
+                    <group invisible="not file_data">
+                        <group>
+                            <field name="file_data" filename="file_name" readonly="1"/>
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_report"
+                            string="Générer le rapport"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le wizard -->
+    <record id="action_situation_projet_wizard" model="ir.actions.act_window">
+        <field name="name">Situation des projets</field>
+        <field name="res_model">situation.projet.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu pour accéder au wizard (sous le menu existant 'menu_reports') -->
+    <menuitem id="menu_situation_projet_wizard"
+              name="Situation des projets"
+              parent="menu_reports"
+              action="action_situation_projet_wizard"
+              sequence="20"/>
+</odoo>

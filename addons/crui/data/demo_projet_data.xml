@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ========================================================= -->
+        <!-- 1. DONNÉES DE BASE / PARAMÉTRAGE (Préfectures, Communes...) -->
+        <!-- ========================================================= -->
+
+        <!-- Préfectures / Provinces -->
+        <record id="pref_fes" model="prefecture">
+            <field name="name">Préfecture de Fès</field>
+        </record>
+        <record id="pref_meknes" model="prefecture">
+            <field name="name">Préfecture de Meknès</field>
+        </record>
+        <record id="pref_sefrou" model="prefecture">
+            <field name="name">Province de Sefrou</field>
+        </record>
+        <record id="pref_ifrane" model="prefecture">
+            <field name="name">Province d'Ifrane</field>
+        </record>
+
+        <!-- Communes -->
+        <record id="commune_fes_agdal" model="commune">
+            <field name="name">Fès - Agdal</field>
+        </record>
+        <record id="commune_fes_medina" model="commune">
+            <field name="name">Fès - Médina</field>
+        </record>
+        <record id="commune_meknes_hamria" model="commune">
+            <field name="name">Meknès - Hamria</field>
+        </record>
+        <record id="commune_ain_cheggag" model="commune">
+            <field name="name">Aïn Cheggag</field>
+        </record>
+        <record id="commune_ifrane" model="commune">
+            <field name="name">Ifrane</field>
+        </record>
+
+        <!-- Macro-secteurs -->
+        <record id="macro_industrie" model="macrosecteur">
+            <field name="name">Industrie &amp; Transformation</field>
+        </record>
+        <record id="macro_tourisme" model="macrosecteur">
+            <field name="name">Tourisme, Loisirs &amp; Hôtellerie</field>
+        </record>
+        <record id="macro_agro" model="macrosecteur">
+            <field name="name">Agriculture &amp; Agro-industrie</field>
+        </record>
+        <record id="macro_services" model="macrosecteur">
+            <field name="name">Services &amp; Technologies de l'information</field>
+        </record>
+
+        <!-- Secteurs -->
+        <record id="secteur_emballage" model="secteur">
+            <field name="name">Industrie de l'Emballage &amp; Carton</field>
+        </record>
+        <record id="secteur_hotellerie" model="secteur">
+            <field name="name">Hôtellerie 4 étoiles &amp; Écolodge</field>
+        </record>
+        <record id="secteur_huile_olive" model="secteur">
+            <field name="name">Trituration et conditionnement d'huile d'olive</field>
+        </record>
+        <record id="secteur_bpo" model="secteur">
+            <field name="name">Centre de services BPO / Numérique</field>
+        </record>
+
+        <!-- Types de Foncier -->
+        <record id="foncier_melk" model="foncier">
+            <field name="name">Melk Privé (Titre Foncier)</field>
+        </record>
+        <record id="foncier_domanial" model="foncier">
+            <field name="name">Domaine Privé de l'État</field>
+        </record>
+        <record id="foncier_zi" model="foncier">
+            <field name="name">Lot en Parc Industriel / ZAE</field>
+        </record>
+        <record id="foncier_soulaliyate" model="foncier">
+            <field name="name">Terres Collectives (Soulaliyate)</field>
+        </record>
+
+        <!-- Actes CRUI -->
+        <record id="act_accord_principe" model="act">
+            <field name="name">Accord de principe CRUI</field>
+        </record>
+        <record id="act_permis_construire" model="act">
+            <field name="name">Autorisation de construire</field>
+        </record>
+        <record id="act_derogation" model="act">
+            <field name="name">Dérogation urbanistique</field>
+        </record>
+        <record id="act_attribution_lot" model="act">
+            <field name="name">Attribution de lot de terrain</field>
+        </record>
+
+        <!-- ========================================================= -->
+        <!-- 2. PÉTITIONNAIRES / INVESTISSEURS (res.partner)           -->
+        <!-- ========================================================= -->
+
+        <record id="partner_atlas_packaging" model="res.partner">
+            <field name="name">Atlas Packaging SARL</field>
+            <field name="is_company">True</field>
+            <field name="phone">+212 5 35 60 11 22</field>
+            <field name="email">contact@atlas-packaging.ma</field>
+            <field name="street">Zone Industrielle Sidi Brahim, Lot N° 45</field>
+            <field name="city">Fès</field>
+        </record>
+
+        <record id="partner_cedre_resort" model="res.partner">
+            <field name="name">Société Cèdre Resort SA</field>
+            <field name="is_company">True</field>
+            <field name="phone">+212 5 35 56 78 90</field>
+            <field name="email">direction@cedre-resort.ma</field>
+            <field name="street">Route de Michlifen, Km 4</field>
+            <field name="city">Ifrane</field>
+        </record>
+
+        <record id="partner_saiss_olive" model="res.partner">
+            <field name="name">Saïss Bio Huiles SARL AU</field>
+            <field name="is_company">True</field>
+            <field name="phone">+212 5 35 73 44 55</field>
+            <field name="email">invest@saiss-bio.com</field>
+            <field name="street">Parc Agro-Industriel Aïn Cheggag, Lot 12</field>
+            <field name="city">Sefrou</field>
+        </record>
+
+        <!-- ========================================================= -->
+        <!-- 3. JEUX D'INSERTION : PROJETS CRUI COMPLETS               -->
+        <!-- ========================================================= -->
+
+        <!-- PROJET 1 : En Traitement CRUI (Industrie à Fès) -->
+        <record id="projet_demo_1" model="projet">
+            <field name="name">Construction d'une unité de fabrication d'emballages biodégradables</field>
+            <field name="identifiant_projet">PRJ-2024-FES-001</field>
+            <field name="reference">CRUI/FES/2024/0148</field>
+            <field name="statut">traitement crui</field>
+            <field name="petitionnaire_id" ref="partner_atlas_packaging"/>
+            <field name="raison_social">Atlas Packaging SARL</field>
+            <field name="forme_juridique">Société à Responsabilité Limitée (SARL)</field>
+            <field name="prefecture_id" ref="pref_fes"/>
+            <field name="commune_id" ref="commune_fes_agdal"/>
+            <field name="macro_secteurs" eval="[(6, 0, [ref('macro_industrie')])]"/>
+            <field name="secteurs" eval="[(6, 0, [ref('secteur_emballage')])]"/>
+            <field name="fonciers" eval="[(6, 0, [ref('foncier_zi')])]"/>
+            <field name="surface">15 400 m²</field>
+            <field name="reference_fonciere">Titre Foncier N° 45892/05 - Lot ZI-45</field>
+            <field name="montant_investissement">55000000.00000</field>
+            <field name="nombre_emploi">135</field>
+            <field name="composante_dominante">Unité de production automatisée &amp; stockage</field>
+            <field name="montant_investissement_composante_dominante">42000000.00000</field>
+            <field name="nombre_emploi_composante_dominante">95</field>
+            <field name="consistance">Projet industriel composé de 2 unités de production, un bâtiment administratif R+2, un laboratoire R&amp;D qualité et une plateforme de stockage logistique couverte de 4 000 m².</field>
+            <field name="composante">Hangar de production (6 000 m²), Stockage matières premières (4 000 m²), Bureaux administratifs (800 m²), Espace technique &amp; voirie (4 600 m²).</field>
+            <field name="dispositions_urbanistiques">Zone Industrielle (ZAE), COS: 0.60, Hauteur maximale autorisée: 14m (R+2), Retrait voirie: 5m.</field>
+            <field name="historique_projet">Dépôt du dossier initial via le portail CRI-Invest le 12/01/2024. Avis favorable des services techniques le 28/01/2024. Programmé pour la commission CRUI du 15/02/2024.</field>
+            <field name="date_lancement" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="date_achevement" eval="(DateTime.today() + relativedelta(months=18)).strftime('%Y-%m-%d 18:00:00')"/>
+        </record>
+
+        <!-- PROJET 2 : Traitement SPOC (Tourisme & Hôtellerie à Ifrane) -->
+        <record id="projet_demo_2" model="projet">
+            <field name="name">Réalisation d'un Éco-Resort touristique &amp; Spa 4 étoiles</field>
+            <field name="identifiant_projet">PRJ-2024-IFR-004</field>
+            <field name="reference">CRUI/IFR/2024/0032</field>
+            <field name="statut">traitement spoc</field>
+            <field name="petitionnaire_id" ref="partner_cedre_resort"/>
+            <field name="raison_social">Société Cèdre Resort SA</field>
+            <field name="forme_juridique">Société anonyme (SA)</field>
+            <field name="prefecture_id" ref="pref_ifrane"/>
+            <field name="commune_id" ref="commune_ifrane"/>
+            <field name="macro_secteurs" eval="[(6, 0, [ref('macro_tourisme')])]"/>
+            <field name="secteurs" eval="[(6, 0, [ref('secteur_hotellerie')])]"/>
+            <field name="fonciers" eval="[(6, 0, [ref('foncier_melk')])]"/>
+            <field name="surface">28 000 m²</field>
+            <field name="reference_fonciere">Titre Foncier N° 12478/IF</field>
+            <field name="montant_investissement">82000000.00000</field>
+            <field name="nombre_emploi">90</field>
+            <field name="composante_dominante">Complexe hôtelier 4* de 60 chalets et suites</field>
+            <field name="montant_investissement_composante_dominante">68000000.00000</field>
+            <field name="nombre_emploi_composante_dominante">75</field>
+            <field name="consistance">Création d'un complexe touristique écologique intégré comprenant 60 unités d'hébergement, un centre de conférence, spa/piscine chauffée, restaurant panoramique et espaces verts récréatifs.</field>
+            <field name="composante">60 Chalets en bois et pierre locale, Bâtiment central d'accueil et restauration, Centre SPA et bien-être, Circuits équestres et pédestres.</field>
+            <field name="dispositions_urbanistiques">Zone Touristique Protégée (ZT3), COS: 0.20, Emprise au sol max: 15%, Intégration paysagère et toiture en tuile verte obligatoire.</field>
+            <field name="historique_projet">Demande soumise le 04/02/2024. Étude d'impact environnemental déposée et en cours de validation par le SPOC territorial.</field>
+            <field name="date_lancement" eval="(DateTime.today() + relativedelta(months=2)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="date_achevement" eval="(DateTime.today() + relativedelta(months=24)).strftime('%Y-%m-%d 18:00:00')"/>
+        </record>
+
+        <!-- PROJET 3 : Nouveau (Agro-industrie à Sefrou) -->
+        <record id="projet_demo_3" model="projet">
+            <field name="name">Unité moderne de trituration et d'exportation d'huile d'olive extra vierge</field>
+            <field name="identifiant_projet">PRJ-2024-SEF-012</field>
+            <field name="reference">CRUI/SEF/2024/0089</field>
+            <field name="statut">nouveau</field>
+            <field name="petitionnaire_id" ref="partner_saiss_olive"/>
+            <field name="raison_social">Saïss Bio Huiles SARL AU</field>
+            <field name="forme_juridique">Société à Responsabilité Limitée (SARL)</field>
+            <field name="prefecture_id" ref="pref_sefrou"/>
+            <field name="commune_id" ref="commune_ain_cheggag"/>
+            <field name="macro_secteurs" eval="[(6, 0, [ref('macro_agro')])]"/>
+            <field name="secteurs" eval="[(6, 0, [ref('secteur_huile_olive')])]"/>
+            <field name="fonciers" eval="[(6, 0, [ref('foncier_zi')])]"/>
+            <field name="surface">8 500 m²</field>
+            <field name="reference_fonciere">Parcelle N° AC-12 / Parc Agro-Industriel</field>
+            <field name="montant_investissement">28500000.00000</field>
+            <field name="nombre_emploi">45</field>
+            <field name="composante_dominante">Ligne de trituration continue à 2 phases &amp; cuves inox</field>
+            <field name="montant_investissement_composante_dominante">22000000.00000</field>
+            <field name="nombre_emploi_composante_dominante">35</field>
+            <field name="consistance">Installation d'une unité agro-industrielle de trituration d'olives à froid d'une capacité de 120 tonnes/jour, avec chaîne d'embouteillage automatisée et bassin de traitement des margines.</field>
+            <field name="composante">Bâtiment de trituration (2 500 m²), Zone de stockage cuves inox (1 500 m²), Chaîne de conditionnement (1 000 m²), Système d'évaporation naturelle des margines.</field>
+            <field name="dispositions_urbanistiques">Parc Agro-industriel d'Aïn Cheggag, Cahier des charges de la zone industrielle agro-alimentaire.</field>
+            <field name="historique_projet">Dépôt récent du dossier technique. En attente de vérification de la complétude par le guichet unique.</field>
+            <field name="date_lancement" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="date_achevement" eval="(DateTime.today() + relativedelta(months=12)).strftime('%Y-%m-%d 18:00:00')"/>
+        </record>
+
+        <!-- PROJET 4 : Clôturé / Traitement Post CRUI (Succès CRUI) -->
+        <record id="projet_demo_4" model="projet">
+            <field name="name">Extension d'un campus Technologique et Centre de Relation Client</field>
+            <field name="identifiant_projet">PRJ-2023-FES-078</field>
+            <field name="reference">CRUI/FES/2023/0410</field>
+            <field name="statut">clôturé</field>
+            <field name="petitionnaire_id" ref="partner_atlas_packaging"/>
+            <field name="raison_social">Tech Park Fès SA</field>
+            <field name="forme_juridique">Société anonyme (SA)</field>
+            <field name="prefecture_id" ref="pref_fes"/>
+            <field name="commune_id" ref="commune_fes_agdal"/>
+            <field name="macro_secteurs" eval="[(6, 0, [ref('macro_services')])]"/>
+            <field name="secteurs" eval="[(6, 0, [ref('secteur_bpo')])]"/>
+            <field name="fonciers" eval="[(6, 0, [ref('foncier_domanial')])]"/>
+            <field name="surface">6 200 m²</field>
+            <field name="reference_fonciere">TF N° 78912/05 - Fès Shore</field>
+            <field name="montant_investissement">32000000.00000</field>
+            <field name="nombre_emploi">350</field>
+            <field name="composante_dominante">Plateaux de bureaux équipés haute connectivité</field>
+            <field name="montant_investissement_composante_dominante">28000000.00000</field>
+            <field name="nombre_emploi_composante_dominante">320</field>
+            <field name="consistance">Bâtiment intelligent R+4 dédié aux métiers de l'offshoring, du développement logiciel et des services clients internationaux.</field>
+            <field name="composante">Plateaux open-space (4 500 m²), Data center sécurisé, Cafétéria et espaces détente, Parking sous-sol.</field>
+            <field name="dispositions_urbanistiques">Parc Fès Shore, Zone tertiaire et technologique (ZT1), COS: 1.8, Hauteur: R+4.</field>
+            <field name="historique_projet">Dossier instruit favorablement en CRUI le 18/05/2023. Autorisation de construire délivrée le 10/07/2023. Projet achevé avec succès.</field>
+            <field name="date_lancement" eval="(DateTime.today() - relativedelta(years=1)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="date_achevement" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d 18:00:00')"/>
+        </record>
+
+        <!-- ========================================================= -->
+        <!-- 4. DOSSIERS, SOUMISSIONS & ENQUÊTES ASSOCIÉS             -->
+        <!-- ========================================================= -->
+
+        <!-- Dossier lié au Projet 1 -->
+        <record id="dossier_demo_1" model="dossier">
+            <field name="name">Dossier d'instruction CRUI - Unité Emballages</field>
+            <field name="projet_id" ref="projet_demo_1"/>
+            <field name="reference">DOS-2024-FES-001</field>
+            <field name="statut_dossier">crui</field>
+            <field name="state">en cours</field>
+            <field name="etat_procedure">Programmée</field>
+            <field name="actes_ids" eval="[(6, 0, [ref('act_permis_construire'), ref('act_accord_principe')])]"/>
+            <field name="date_depot" eval="(DateTime.today() - relativedelta(days=20)).strftime('%Y-%m-%d 10:00:00')"/>
+            <field name="date_retour_spoc" eval="(DateTime.today() - relativedelta(days=12)).strftime('%Y-%m-%d 15:30:00')"/>
+            <field name="date_diffusion" eval="(DateTime.today() - relativedelta(days=10)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="observation_spoc">Dossier technique complet. Conforme aux orientations du schéma directeur d'aménagement urbain (SDAU).</field>
+            <field name="observation_traitement_spoc">Avis technique favorable émis par la commission préalable.</field>
+        </record>
+
+        <!-- Soumission liée au Projet 1 -->
+        <record id="soumission_demo_1" model="soumission">
+            <field name="name">Soumission Initiale - Atlas Packaging</field>
+            <field name="projet_id" ref="projet_demo_1"/>
+            <field name="reference">SOUM-2024-0148</field>
+            <field name="statut_dossier">crui</field>
+            <field name="state">en cours</field>
+            <field name="etat_procedure">Programmée</field>
+            <field name="actes_ids" eval="[(6, 0, [ref('act_permis_construire')])]"/>
+            <field name="date_depot" eval="(DateTime.today() - relativedelta(days=20)).strftime('%Y-%m-%d 10:00:00')"/>
+            <field name="date_retour_spoc" eval="(DateTime.today() - relativedelta(days=12)).strftime('%Y-%m-%d 15:30:00')"/>
+            <field name="date_diffusion" eval="(DateTime.today() - relativedelta(days=10)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="observation_spoc">Transmission aux membres de la commission CRUI effectuée.</field>
+        </record>
+
+        <!-- Enquête de suivi pour Projet 4 (Clôturé / En activité) -->
+        <record id="enquete_demo_4" model="enquete">
+            <field name="projet_id" ref="projet_demo_4"/>
+            <field name="etat_avancement">Travaux achevés activité démarrée</field>
+            <field name="pourcentage_realisation">100.0</field>
+            <field name="montant_investissement_reel">32500000.00</field>
+            <field name="nombre_emplois_reel">360</field>
+            <field name="date_autorisation" eval="(DateTime.today() - relativedelta(months=11)).strftime('%Y-%m-%d 10:00:00')"/>
+            <field name="date_lancement_effective" eval="(DateTime.today() - relativedelta(months=10)).strftime('%Y-%m-%d 08:30:00')"/>
+            <field name="date_fin_travaux" eval="(DateTime.today() - relativedelta(months=2)).strftime('%Y-%m-%d 18:00:00')"/>
+            <field name="date_demarage_activite" eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="observation_suivi">Projet opérationnel à 100%. Dépassement positif des objectifs d'emplois créés (360 emplois effectifs vs 350 prévus).</field>
+        </record>
+
+    </data>
+</odoo>

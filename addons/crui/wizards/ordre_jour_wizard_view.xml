@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue du formulaire du wizard -->
+    <record id="view_ordre_jour_wizard_form" model="ir.ui.view">
+        <field name="name">ordre.jour.wizard.form</field>
+        <field name="model">ordre.jour.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Générer l'ordre du jour">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_passage" required="1"/>
+                        </group>
+                    </group>
+                    <group invisible="not file_data">
+                        <group>
+                            <field name="file_data" filename="file_name" readonly="1"/>
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_ordre_jour"
+                            string="Générer l'ordre du jour"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le wizard -->
+    <record id="action_ordre_jour_wizard" model="ir.actions.act_window">
+        <field name="name">Générer l'ordre du jour</field>
+        <field name="res_model">ordre.jour.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu parent pour les rapports -->
+    <menuitem id="menu_reports"
+              name="Rapports"
+              parent="crui.menu_root"
+              sequence="50"/>
+
+    <!-- Menu pour accéder au wizard -->
+    <menuitem id="menu_ordre_jour_wizard"
+              name="Ordre du jour"
+              parent="menu_reports"
+              action="action_ordre_jour_wizard"
+              sequence="10"/>
+</odoo>

@@ -1,0 +1,30 @@
+{
+    "name": "odoo_postgres_cdc",
+    "workspaceId": "569c2d75-f6d0-42cc-b99a-4cc482de3a33",
+    "definitionId": "decd338e-5647-4c0b-adf4-da0e75f5a750",
+    "configuration": {
+        "port": 5434,
+        "host": "host.docker.internal",
+        "database": "dev_db",
+        "password": "******",
+        "ssl_mode": {
+            "mode": "disable"
+        },
+        "username": "odoo",
+        "tunnel_method": {
+            "tunnel_method": "NO_TUNNEL"
+        },
+        "check_privileges": true,
+        "replication_method": {
+            "method": "CDC",
+            "publication": "airbyte_publication",
+            "replication_slot": "airbyte_slot",
+            "lsn_commit_behaviour": "After loading Data in the destination",
+            "initial_waiting_seconds": 1200,
+            "initial_load_timeout_hours": 8,
+            "debezium_shutdown_timeout_seconds": 60
+        },
+        "entra_service_principal_auth": false,
+        "checkpoint_target_interval_seconds": 300
+    }
+}

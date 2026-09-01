@@ -1,0 +1,16 @@
+<odoo>
+    <!-- Tâche planifiée pour générer/mettre à jour les bilans annuels -->
+    <record id="cron_generate_annee_bilan_records" model="ir.cron">
+        <field name="name">CRON: Génération du Bilan Annuel</field>
+        <field name="model_id" ref="model_etat_bilan_projet"/>
+        <field name="state">code</field>
+        <field name="code">model.generate_annee_bilan_records()</field>
+        <field name="active">True</field>
+        <!-- Intervalle (nombre de jours, heures, etc.) -->
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <!-- -1 indique qu’on exécute la tâche un nombre illimité de fois -->
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 12:00:00')"/>
+        <!-- Date de première exécution (UTC) --> 
+    </record>
+</odoo>

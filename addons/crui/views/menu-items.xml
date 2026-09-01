@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <menuitem name="CRUI" id="menu_root" web_icon="fa-briefcase"/>
+
+        <menuitem name="Liste des Projets" id="menu_1" parent="menu_root"/>
+        <menuitem name="Paramétrage" id="menu_2" parent="menu_root"/>
+        <menuitem id="menu_3" name="Tableaux de Bord"
+          parent="menu_root"/>
+         <menuitem id="menu_31" name="Tableaux de Bord"
+          parent="menu_3"
+          action="action_projet_dashboard"/>
+          <menuitem id="menu_etat_bilan_projet"
+          name="État Bilan"
+          parent="menu_3"
+          action="action_etat_bilan_projet_pivot"/>
+
+        <menuitem name="Projets" id="menu_1_list" parent="menu_1" action="projet_action"/>
+        <menuitem name="Dossiers" id="menu_8_list" parent="menu_1" action="action_dossier"/>
+        <menuitem name="Visites" id="menu_10_list" parent="menu_1" action="action_visite"/>
+
+        <menuitem name="Secteur" id="menu_2_list" parent="menu_2" action="action_secteur"/>
+        <menuitem name="Macro Secteur" id="menu_11_list" parent="menu_2" action="action_macrosecteur"/>
+        <menuitem name="Foncier" id="menu_3_list" parent="menu_2" action="action_foncier"/>
+        <menuitem name="Préfecture et Province" id="menu_4_list" parent="menu_2" action="action_prefecture"/>
+        <menuitem name="Commune" id="menu_5_list" parent="menu_2" action="action_commune"/>
+        <menuitem name="Actes" id="menu_6_list" parent="menu_2" action="action_act"/>
+        <menuitem name="Actions" id="menu_7_list" parent="menu_2" action="action_action"/>
+        <menuitem name="SPOC" id="menu_9_list" parent="menu_2" action="action_spoc"/>
+        
+    </data>
+</odoo>

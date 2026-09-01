@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_foncier">
+            <field name="name">FONCIER CRUI</field>
+            <field name="res_model">foncier</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

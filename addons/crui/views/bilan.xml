@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- PIVOT VIEW -->
+    <record id="view_etat_bilan_projet_pivot" model="ir.ui.view">
+        <field name="name">etat.bilan.projet.pivot</field>
+        <field name="model">etat.bilan.projet</field>
+        <field name="arch" type="xml">
+            <pivot string="Bilan Projets par Année">
+                <!-- On choisit la façon dont on veut grouper nos données -->
+                <field name="annee" type="row"/>
+
+                <!-- Les mesures que l'on souhaite afficher dans le pivot -->
+                <field name="nb_dossiers_favorables" type="measure"/>
+                <field name="nb_dossiers_favorables_sous_reserve" type="measure"/>
+                <field name="nb_dossiers_defavorables" type="measure"/>
+                <field name="nb_dossiers_complement" type="measure"/>
+                <field name="nb_dossiers_reprogrammes" type="measure"/>
+                <!-- Ajoutez ici d'autres champs calculés si nécessaire -->
+            </pivot>
+        </field>
+    </record>
+    <record id="view_etat_bilan_projet_list" model="ir.ui.view">
+        <field name="name">etat.bilan.projet.list</field>
+        <field name="model">etat.bilan.projet</field>
+        <field name="arch" type="xml">
+            <list string="Bilan Projets">
+                <button name="action_generer_bilan_annuel"
+                        string="Générer Bilan"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-refresh"/>
+                <field name="annee"/>
+                <field name="nb_dossiers_favorables"/>
+                <field name="nb_dossiers_favorables_sous_reserve"/>
+                <field name="nb_dossiers_defavorables"/>
+                <field name="nb_dossiers_complement"/>
+                <field name="nb_dossiers_reprogrammes"/>
+                <field name="delai_moyen_reactivite_spoc"/>
+                <field name="delai_moyen_traitement_projet"/>
+                <field name="delai_moyen_examen_crui"/>
+                <field name="pourcentage_dossiers_soumis_30j"/>
+                <field name="pourcentage_dossiers_examines_30j"/>
+                <field name="pourcentage_dossiers_approuves"/>
+                <field name="pourcentage_investissement_realise"/>
+                <field name="pourcentage_emplois_realises"/>
+                <field name="montant_investissement_total"/>
+                <field name="nombre_emploi_total"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_etat_bilan_projet_kanban" model="ir.ui.view">
+        <field name="name">etat.bilan.projet.kanban</field>
+        <field name="model">etat.bilan.projet</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column" create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_card">
+                            <div class="o_kanban_primary_bottom">
+                                <strong><field name="annee"/></strong>
+                                <div>
+                                    <span>Dossiers favorables : </span>
+                                    <field name="nb_dossiers_favorables"/>
+                                </div>
+                                <div>
+                                    <span>Sous réserves : </span>
+                                    <field name="nb_dossiers_favorables_sous_reserve"/>
+                                </div>
+                                <div>
+                                    <span>Défavorables : </span>
+                                    <field name="nb_dossiers_defavorables"/>
+                                </div>
+                                <div>
+                                    <span>delai_moyen_reactivite_spoc : </span>
+                                    <field name="delai_moyen_reactivite_spoc"/>
+                                </div>
+                                <div>
+                                    <span>delai_moyen_traitement_projet : </span>
+                                    <field name="delai_moyen_traitement_projet"/>
+                                </div>
+                                <div>   
+                                    <span>delai_moyen_examen_crui : </span>
+                                    <field name="delai_moyen_examen_crui"/>
+                                </div>
+                                <div>
+                                    <span>pourcentage_dossiers_soumis_30j : </span>
+                                    <field name="pourcentage_dossiers_soumis_30j"/>
+                                </div>
+                                <div>
+                                    <span>pourcentage_dossiers_examines_30j : </span>
+                                    <field name="pourcentage_dossiers_examines_30j"/>
+                                </div>
+                                <div>
+                                    <span>pourcentage_dossiers_approuves : </span>
+                                    <field name="pourcentage_dossiers_approuves"/>
+                                </div>
+                                <div>
+                                    <span>pourcentage_investissement_realise : </span>
+                                    <field name="pourcentage_investissement_realise"/>
+                                </div>
+                                <div>
+                                    <span>pourcentage_emplois_realises : </span>
+                                    <field name="pourcentage_emplois_realises"/>
+                                </div>
+                                <div>
+                                    <span>montant_investissement_total : </span>
+                                    <field name="montant_investissement_total"/>
+                                </div>
+                                <div>
+                                    <span>nombre_emploi_total : </span>
+                                    <field name="nombre_emploi_total"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_etat_bilan_projet_graph" model="ir.ui.view">
+        <field name="name">etat.bilan.projet.graph</field>
+        <field name="model">etat.bilan.projet</field>
+        <field name="arch" type="xml">
+            <graph string="Graphique Bilan Projets par Année" type="bar">
+                <field name="annee" type="row"/>
+                <field name="nb_dossiers_favorables" type="measure"/>
+                <field name="nb_dossiers_favorables_sous_reserve" type="measure"/>
+                <field name="nb_dossiers_defavorables" type="measure"/>
+                <field name="nb_dossiers_complement" type="measure"/>
+                <field name="nb_dossiers_reprogrammes" type="measure"/>
+                <field name="delai_moyen_reactivite_spoc" type="measure"/>
+                <field name="delai_moyen_traitement_projet" type="measure"/>
+                <field name="delai_moyen_examen_crui" type="measure"/>
+                <field name="pourcentage_dossiers_soumis_30j" type="measure"/>
+                <field name="pourcentage_dossiers_examines_30j" type="measure"/>
+                <field name="pourcentage_dossiers_approuves" type="measure"/>
+                <field name="pourcentage_investissement_realise" type="measure"/>
+                <field name="pourcentage_emplois_realises" type="measure"/>
+                <field name="montant_investissement_total" type="measure"/>
+                <field name="nombre_emploi_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ACTION POUR OUVRIR LA VUE PIVOT -->
+    <record id="action_etat_bilan_projet_pivot" model="ir.actions.act_window">
+        <field name="name">Bilan des Projets</field>
+        <field name="res_model">etat.bilan.projet</field>
+        <field name="view_mode">pivot,list,kanban,graph</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

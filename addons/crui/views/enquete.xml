@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="crui_enquete1_list_view">
+            <field name="name">enquete.list</field>
+            <field name="model">enquete</field>
+            <field name="arch" type="xml">
+                 <list>  
+                    <field name="projet_id"></field>
+                    <!-- #ELEMENT SUIVIS -->
+                    <field name="date_suivi_effectue" optional="hide"></field>
+                    <field name="etat_avancement" optional="hide"></field>
+                    <field name="date_autorisation" optional="hide"></field>
+                    <field name="date_fin_travaux" optional="hide"></field>
+                    <field name="date_demarage_activite" optional="hide"></field>
+                    <field name="pourcentage_realisation" optional="hide"></field>
+                    <field name="montant_investissement_reel" optional="hide"></field>
+                    <field name="nombre_emplois_reel" optional="hide"></field>
+                    <field name="observation_suivi" optional="hide"></field>
+
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="crui_enquete_form_view">
+            <field name="name">enquete.form</field>
+            <field name="model">enquete</field>
+            <field name="arch" type="xml">
+                <form>
+                   <group>
+                        <group string ="Information Général Dossier">
+                            <!-- ELEMENT PRE CRUI -->
+                            <field name="projet_id"></field>
+                        </group>
+                        <group string ="POST CRUI / SUIVI">
+                            <field name="date_suivi_effectue"></field>
+                            <field name="etat_avancement"></field>
+                            <field name="date_autorisation"></field>
+                            <field name="date_lancement_effective"></field>
+                            <field name="date_fin_travaux"></field>
+                            
+                        </group>
+                        <group string ="POST CRUI / SUIVI">
+                            
+                            <field name="date_demarage_activite"></field>
+                            <field name="pourcentage_realisation"></field>
+                            <field name="montant_investissement_reel"></field>
+                            <field name="nombre_emplois_reel"></field>
+                            <field name="observation_suivi"></field>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_view_enquete">
+            <field name="name">enquete CRUI</field>
+            <field name="res_model">enquete</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="crui_enquete1_list_view"/>
+        </record>
+        <record id="action_view_enquete" model="ir.actions.act_window">
+            <field name="name">enquetes</field>
+            <field name="res_model">enquete</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[]</field>
+        </record>
+    </data>
+</odoo>

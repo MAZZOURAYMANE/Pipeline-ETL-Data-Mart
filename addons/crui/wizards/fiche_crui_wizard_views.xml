@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire du Wizard -->
+    <record id="view_fiche_crui_wizard_form" model="ir.ui.view">
+        <field name="name">fiche.crui.wizard.form</field>
+        <field name="model">fiche.crui.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Générer la Fiche CRUI">
+                <group>
+                    <field name="date_passage"/>
+                    <field name="file_name" invisible="1"/>
+                    <field name="file_data" readonly="1" filename="file_name" invisible="not file_data"/>
+                </group>
+                <footer>
+                    <button name="action_generate_fiche_crui" string="Générer la fiche PPTX" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le Wizard -->
+    <record id="action_fiche_crui_wizard" model="ir.actions.act_window">
+        <field name="name">Générer Fiche CRUI</field>
+        <field name="res_model">fiche.crui.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field> <!-- 'new' permet d'ouvrir en pop-up modale -->
+    </record>
+
+    <!-- Élément de menu pour Fiche CRUI -->
+    <menuitem id="menu_fiche_crui_wizard"
+              name="Fiche CRUI (PPTX)"
+              parent="menu_reports" 
+              action="action_fiche_crui_wizard"
+              sequence="15"
+              groups="crui.group_crui_manager"/>
+</odoo>

@@ -1,0 +1,323 @@
+<odoo>
+    <record id="rule_projet_own" model="ir.rule">
+        <field name="name">Projet – Propres enregistrements</field>
+        <field name="model_id" ref="model_projet"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_projet_all" model="ir.rule">
+        <field name="name">Projet – Accès complet</field>
+        <field name="model_id" ref="model_projet"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_secteur_own" model="ir.rule">
+        <field name="name">Secteur – Propres enregistrements</field>
+        <field name="model_id" ref="model_secteur"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_secteur_all" model="ir.rule">
+        <field name="name">Secteur – Accès complet</field>
+        <field name="model_id" ref="model_secteur"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_macrosecteur_own" model="ir.rule">
+        <field name="name">Macrosecteur – Propres enregistrements</field>
+        <field name="model_id" ref="model_macrosecteur"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_macrosecteur_all" model="ir.rule">
+        <field name="name">Macrosecteur – Accès complet</field>
+        <field name="model_id" ref="model_macrosecteur"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+ 
+    <record id="rule_commune_own" model="ir.rule">
+        <field name="name">Commune – Propres enregistrements</field>
+        <field name="model_id" ref="model_commune"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_commune_all" model="ir.rule">
+        <field name="name">Commune – Accès complet</field>
+        <field name="model_id" ref="model_commune"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_foncier_own" model="ir.rule">
+        <field name="name">Foncier – Propres enregistrements</field>
+        <field name="model_id" ref="model_foncier"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_foncier_all" model="ir.rule">
+        <field name="name">Foncier – Accès complet</field>
+        <field name="model_id" ref="model_foncier"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+   
+    <record id="rule_prefecture_own" model="ir.rule">
+        <field name="name">Préfecture – Propres enregistrements</field>
+        <field name="model_id" ref="model_prefecture"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_prefecture_all" model="ir.rule">
+        <field name="name">Préfecture – Accès complet</field>
+        <field name="model_id" ref="model_prefecture"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+ 
+    <record id="rule_dossier_own" model="ir.rule">
+        <field name="name">Dossier – Propres enregistrements</field>
+        <field name="model_id" ref="model_dossier"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_dossier_all" model="ir.rule">
+        <field name="name">Dossier – Accès complet</field>
+        <field name="model_id" ref="model_dossier"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_act_own" model="ir.rule">
+        <field name="name">Act – Propres enregistrements</field>
+        <field name="model_id" ref="model_act"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_act_all" model="ir.rule">
+        <field name="name">Act – Accès complet</field>
+        <field name="model_id" ref="model_act"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+
+    <record id="rule_action_own" model="ir.rule">
+        <field name="name">Action – Propres enregistrements</field>
+        <field name="model_id" ref="model_action"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_action_all" model="ir.rule">
+        <field name="name">Action – Accès complet</field>
+        <field name="model_id" ref="model_action"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_conseiller_own" model="ir.rule">
+        <field name="name">Conseiller – Propres enregistrements</field>
+        <field name="model_id" ref="model_conseiller"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_conseiller_all" model="ir.rule">
+        <field name="name">Conseiller – Accès complet</field>
+        <field name="model_id" ref="model_conseiller"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_visite_own" model="ir.rule">
+        <field name="name">Visite – Propres enregistrements</field>
+        <field name="model_id" ref="model_visite"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_visite_all" model="ir.rule">
+        <field name="name">Visite – Accès complet</field>
+        <field name="model_id" ref="model_visite"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_soumission_own" model="ir.rule">
+        <field name="name">Soumission – Propres enregistrements</field>
+        <field name="model_id" ref="model_soumission"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_soumission_all" model="ir.rule">
+        <field name="name">Soumission – Accès complet</field>
+        <field name="model_id" ref="model_soumission"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="rule_enquete_own" model="ir.rule">
+        <field name="name">Enquête – Propres enregistrements</field>
+        <field name="model_id" ref="model_enquete"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_enquete_all" model="ir.rule">
+        <field name="name">Enquête – Accès complet</field>
+        <field name="model_id" ref="model_enquete"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+  
+    <record id="rule_etat_bilan_projet_own" model="ir.rule">
+        <field name="name">Etat bilan projet – Propres enregistrements</field>
+        <field name="model_id" ref="model_etat_bilan_projet"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_etat_bilan_projet_all" model="ir.rule">
+        <field name="name">Etat bilan projet – Accès complet</field>
+        <field name="model_id" ref="model_etat_bilan_projet"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+
+    <record id="rule_commission_crui_own" model="ir.rule">
+        <field name="name">Commission CRUI – Propres enregistrements</field>
+        <field name="model_id" ref="model_commission_crui"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="rule_commission_crui_all" model="ir.rule">
+        <field name="name">Commission CRUI – Accès complet</field>
+        <field name="model_id" ref="model_commission_crui"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('crui.group_crui_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_secteur">
+            <field name="name">SECTEUR CRUI</field>
+            <field name="res_model">secteur</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

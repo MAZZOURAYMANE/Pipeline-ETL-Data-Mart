@@ -1,0 +1,436 @@
+<odoo>
+    <record model="ir.actions.act_window" id="action_view_dossier">
+        <field name="name">DOSSIER CRUI</field>
+        <field name="res_model">dossier</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[("projet_id", "=", active_id)]</field>
+    </record>
+     <record model="ir.actions.act_window" id="action_view_soumission">
+        <field name="name">SOUMISSION CRUI</field>
+        <field name="res_model">soumission</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[("projet_id", "=", active_id)]</field>
+    </record>
+    <record model="ir.actions.act_window" id="action_view_enquete">
+        <field name="name">ENQUETES CRUI</field>
+        <field name="res_model">enquete</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[("projet_id", "=", active_id)]</field>
+    </record>
+    <record model="ir.ui.view" id="crui_projet_list_view">
+        <field name="name">projet.list</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="identifiant_projet" optional="show"/>
+                <field name="reference" optional="show"/>
+                <field name="name" optional="show"/>
+                <field name="decision_projet" optional="show"/>
+                <field name="consistance" optional="show"/>
+                <field name="composante" optional="show"/>
+                <field name="petitionnaire_id" string="Pétitionnaire" optional="hide"/>
+                <field name="secteurs" widget="many2many_tags" string="Secteurs" optional="hide"/>
+                <field name="prefecture_id" string="Préfecture" optional="hide"/>
+                <field name="commune_id" string="Commune" optional="hide"/>
+                <field name="raison_social" string="Raison Social" optional="hide"/>
+                <field name="forme_juridique" string="Forme Juridique" optional="hide"/>
+                <field name="surface" optional="hide"/>
+                <field name="fonciers" optional="hide"/>
+                <field name="reference_fonciere" optional="hide"/>
+                <field name="montant_investissement" optional="show"/>
+                <field name="nombre_emploi" optional="show"/>
+                <field name="conseiller_id" string="SPOC (Conseiller)" optional="hide"/>
+                <field name="montant_investissement_composante_dominante" optional="hide"/>
+                <field name="composante_dominante" optional="hide"/>
+                <field name="macro_secteurs" widget="many2many_tags" string="Macro-Secteurs" optional="hide"/>
+                <field name="nombre_emploi_composante_dominante" optional="hide"/>
+                <field name="annee" optional="show"/>
+                <field name="date_lancement" optional="hide"/>
+                <field name="date_achevement" optional="hide"/>
+                <field name="statut" optional="show"/>       
+            </list>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="projet_form_view">
+        <field name="name">projet.form</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_cloturer" type="object" string="Clôturer le projet"></button>
+                    <button name="action_generate_docx_summary"
+                        type="object"
+                        string="Générer PV CRUI"
+                        class="oe_highlight"
+                        icon="fa-file-word-o"/>
+                    <field name="statut" widget="statusbar"></field>
+
+                </header>
+                <sheet>
+                  
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe-stat_button" name="%(action_view_dossier)d" type="action"
+                                icon="fa-folder-open-o">
+                            <field name="nombre_dossier" string="Dossiers" widget="statinfo"></field>
+                        </button>
+                        <button class="oe-stat_button" name="action_check_and_fix_soumission_dates" type="object"
+                                icon="fa-wrench"
+                                confirm="Cette action va vérifier toutes les soumissions et corriger les dates invalides.">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Corriger dates</span>
+                            </div>
+                        </button>
+                        <button class="oe-stat_button" name="%(action_view_soumission)d" type="action"
+                                icon="fa-paper-plane-o">
+                            <field name="nombre_soumission" string="Soumissions" widget="statinfo"></field>
+                        </button>
+                        <button class="oe-stat_button" name="%(action_view_enquete)d" type="action"
+                                icon="fa-search">
+                            <field name="nombre_enquete" string="Enquêtes" widget="statinfo"></field>
+                        </button>
+                    </div>
+                    <group string="Données Projet">
+                        <group>
+                            <field name="fiche_projet" filename="fiche_projet_filename" widget="binary"/>
+                            <button name="action_extract_data_from_pdf" type="object" string="Extraire les données du PDF" class="oe_highlight"/>
+                            <field name="plan_masse" filename="plan_masse_filename" widget="binary" string="Plan de Masse"/>
+                            <field name="plan_situation" filename="plan_situation_filename" widget="binary" string="Plan de Situation"/>
+                            <field name="statut"></field>
+                            <field name="decision_projet"></field>
+                            <field name="identifiant_projet"/>
+                            <field name="reference"/>
+                            <field name="name"/>
+                            <field name="consistance"/>
+                            <field name="composante"/>
+                            <field name="secteurs" widget="many2many_tags"/>
+                            <field name="prefecture_id"/>
+                            <field name="commune_id"/>
+                            <field name="montant_investissement"/>
+                            <field name="nombre_emploi"/>
+                             <field name="conseiller_id"/>
+                             <field name="dispositions_urbanistiques"/>
+                             <field name="historique_projet"/>
+                             <field name="docx_file" filename="docx_filename" widget="binary" string="PV CRUI (Word)"/>
+                        </group>
+                        <group>
+                            <field name="surface"/>
+                            <field name="fonciers" widget="many2many_tags"/>
+                            <field name="reference_fonciere"/>
+                            <field name="montant_investissement_composante_dominante"/>
+                            <field name="macro_secteurs" widget="many2many_tags"/>
+                            <field name="composante_dominante"/>
+                            <field name="nombre_emploi_composante_dominante"/>
+                            <field name="date_lancement"/>
+                            <field name="date_achevement"/>
+                        </group>
+                    </group>
+                    <group string="Pétitionnaire">
+                        <group>
+                            <field name="petitionnaire_id"></field>
+                            <field name="petitionnaire"></field>
+                            <field name="telephone"/>
+                        </group>
+                        <group>
+                            <field name="email"></field>
+                            <field name="adresse"></field>
+                            <field name="raison_social"></field>
+                            <field name="forme_juridique"></field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="Soumissions">
+                            <field name="soumission_ids" mode="list,form" >
+                                <list>  
+                                    <field name="dossier_id"></field>
+                                    <field name="projet_id"></field>
+                                    <field name="state"></field>
+                                    <field name="actes_ids" optional="hide" widget="many2many_tags"></field>
+                                    <field name="reference" optional="hide"></field>
+                                    <field name="date_depot" optional="hide"></field>
+                                    <field name="date_retour_spoc" optional="hide"></field>
+                                    <field name="date_diffusion" optional="hide"></field>
+                                    <field name="delai_reactivite_spoc" optional="show"></field>
+                                    <field name="statut_dossier"></field>
+                                    <field name="observation_traitement_spoc" optional="hide"></field>
+                                    <field name="etat_procedure" optional="show"></field>
+                                    <field name="observation_spoc" optional="hide"></field>
+                                    <button string="Dupliquer" type="object" name="duplicate_selected_soumission" class="oe_highlight"/>
+                                    <button string="Diffuser" type="object" name="action_diffuser" class="oe_highlight"/>
+                                </list>
+                                <form>
+                                    <group string="Traitement Pré-crui">
+                                        <group>
+                                            <field name="dossier_id"></field>
+                                            <field name="projet_id"></field>
+                                            <field name="state"></field>
+                                            <field name="actes_ids" widget="many2many_tags"></field>
+                                            <field name="reference" ></field>
+                                            <field name="observation_spoc" ></field>
+                                        </group>
+                                        <group>
+                                            <field name="date_depot"></field>
+                                            <field name="date_retour_spoc"></field>
+                                            <field name="date_diffusion"></field>
+                                            <field name="delai_reactivite_spoc"></field>
+                                            <field name="statut_dossier"></field>
+                                            <field name="observation_traitement_spoc"></field>
+                                            <field name="etat_procedure"></field>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="Dossiers">
+                            <field name="dossier_ids" mode="list,form" >
+                                <list> 
+                                <!-- Bouton pour extraire les données du PDF -->
+                                    <field name="statut_dossier"></field>
+                                    <!-- ELEMENT PRE CRUI -->
+                                    <field name="projet_id"></field>
+                                    <field name="dossier_id"></field>
+                                    <field name="reference" optional="hide"></field>
+                                    <field name="state"></field>
+                                    <field name="actes_ids" optional="hide" widget="many2many_tags"></field>
+                                    <field name="date_depot" optional="hide"></field>
+                                    <field name="date_retour_spoc" optional="hide"></field>
+                                    <field name="date_diffusion" optional="hide"></field>
+                                    <field name="observation_traitement_spoc" optional="hide"></field>
+                                    <field name="observation_spoc" optional="hide"></field>
+                                    <field name="etat_procedure" optional="hide"></field>
+                                    <field name="delai_moyen_traitement" optional="hide"></field>
+                                    <!-- ELEMENT CRUI -->
+                                    <field name="date_passage" optional="hide"></field>
+                                    <field name="decision_crui" optional="hide"></field>
+                                    <field name="argument_crui" optional="hide"></field>
+                                    <field name="delai_instruction_CRUI" optional="hide"></field>
+                                    <!-- ELEMENT RECOURS GRACIEUX -->
+                                    
+                                    <field name="date_depot_lettre_recours" optional="hide"></field>
+                                    <field name="recours_wali" optional="hide"></field>
+                                    <field name="avis_wali" optional="hide"></field>
+                                    <field name="etat_decision_wali" optional="hide"></field>
+                                    <!-- ELEMENT RECOURS MINISTERIEL -->
+
+                                    <field name="date_comite_ministeriel" optional="hide"></field>
+                                    <field name="recours_comite_ministeriel" optional="hide"></field>
+                                    <field name="avis_recours_ministeriel" optional="hide"></field>
+                                    <field name="decision_comite_ministeriel" optional="hide"></field>
+                                    <!-- CAS FAVORABLE/FAVORABLE SOUS RESERVE -->
+                                    <!-- avant delivrance d'acte -->
+
+                                    <field name="date_insertion" optional="hide"></field>
+                                    <field name="observation_post_crui" optional="hide"></field>
+                                    <field name="date_leve_reserve" optional="hide"></field>
+                                     <!-- #aprés delivrance d'acte -->
+                                    <field name="date_delivrance" optional="hide"></field>
+                                   
+                                    <button string="Duplicate Dossier" type="object" name="duplicate_selected_dossier" class="oe_highlight"/>
+
+                                </list>
+                                <form>
+                                    <group>
+                                        <group string ="Information Général Dossier">
+                                            <field name="statut_dossier"></field>
+                                            <!-- ELEMENT PRE CRUI -->
+                                            <field name="projet_id"></field>
+                                            <field name="dossier_id"></field>
+                                            <field name="reference"></field>
+                                            <field name="state"></field>
+                                            <field name="actes_ids" widget="many2many_tags"></field>
+                                            <field name="observation_spoc"></field>
+                                            <field name="etat_procedure"></field>
+                                        </group>
+                                        <group string ="Information PRE-CRUI" invisible=" statut_dossier!= 'precrui'">
+                                            <field name="date_depot"></field>
+                                            <field name="date_retour_spoc"></field>
+                                            <field name="date_diffusion"></field>
+                                            <field name="observation_traitement_spoc"></field>
+                                            <field name="delai_moyen_traitement"></field>
+                                        </group>
+                                        <group string ="Information CRUI" invisible=" statut_dossier!= 'crui'">
+                                        <field name="date_passage" readonly="not date_diffusion"></field>
+                                            <field name="decision_crui"></field>
+                                            <field name="argument_crui"></field>
+                                            <field name="remarque_crui"></field>
+                                            
+                                        </group>
+                                        <group string ="RECOURS WALI" invisible=" statut_dossier!= 'crui'">
+                                            <field name="date_depot_lettre_recours"></field>
+                                            <field name="recours_wali"></field>
+                                            <field name="avis_wali"></field>
+                                            <field name="etat_decision_wali"></field>
+                                        </group>
+                                        <group string ="RECOURS MINISTERIEL" invisible=" statut_dossier!= 'crui'">
+                                            <field name="date_comite_ministeriel"></field>
+                                            <field name="recours_comite_ministeriel"></field>
+                                            <field name="avis_recours_ministeriel"></field>
+                                            <field name="decision_comite_ministeriel"></field>
+                                        </group>
+                                        <group string ="POST CRUI / DELIVRANCE ACT" invisible=" statut_dossier!= 'postcrui'">
+                                            <field name="date_insertion"></field>
+                                            <field name="observation_post_crui"></field>
+                                            <field name="action_ids" mode="list,form">
+                                                <list>
+                                                    <field name="name"/>
+                                                    <field name="partenaire_id"/>
+                                                    <field name="date_lancement"/>
+                                                    <field name="date_retour"/>
+                                                    <field name="delai_jours"/>
+                                                    <field name="duree_reelle"/>
+                                                    <field name="alerte_retard"/>
+                                                    <field name="statut"/>
+                                                </list>
+                                                <form>
+                                                    <group>
+                                                        <field name="name"/>
+                                                        <field name="partenaire_id"/>
+                                                        <field name="date_lancement"/>
+                                                        <field name="date_retour"/>
+                                                        <field name="delai_jours"/>
+                                                        <field name="duree_reelle" readonly="1"/>
+                                                        <field name="alerte_retard" readonly="1"/>
+                                                        <field name="statut"/>
+                                                        <field name="observation"/>
+                                                    </group>
+                                                </form>
+                                            </field>
+                                            <field name="date_leve_reserve"></field>
+                                            <field name="date_delivrance"></field>
+
+                                            
+                                        </group>
+                                        <group string ="POST CRUI / DELIVRANCE ACT" invisible=" statut_dossier!= 'suivi'">
+                                            <field name="date_insertion"></field>
+                                            <field name="observation_post_crui"></field>
+                                            <field name="date_leve_reserve"></field>
+                                            <field name="date_delivrance"></field>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <!-- Onglet existants si tu veux les garder -->
+                                        <page string="Commissions CRUI">
+                                            <field name="commission_id" mode="list,form">
+                                                <list>
+                                                    <field name="name"/>
+                                                    <field name="date_passage"/>
+                                                    <field name="membre_ids" widget="many2many_tags"/>
+                                                </list>
+                                                <form>
+                                                    <group>
+                                                        <field name="name"/>
+                                                        <field name="date_passage"/>
+                                                        <field name="membre_ids" widget="many2many_tags"/>
+                                                    </group>
+                                                </form>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="Enquêtes">
+                            <field name="enquete_ids" mode="list,form" >
+                                <list> 
+                                <!-- Bouton pour extraire les données du PDF -->
+                                    <!-- ELEMENT PRE CRUI -->
+                                    <field name="projet_id"></field>
+                                    <!-- #ELEMENT SUIVIS -->
+                                    <field name="date_suivi_effectue" optional="hide"></field>
+                                    <field name="etat_avancement" optional="hide"></field>
+                                    <field name="date_autorisation" optional="hide"></field>
+                                    <field name="date_fin_travaux" optional="hide"></field>
+                                    <field name="date_demarage_activite" optional="hide"></field>
+                                    <field name="pourcentage_realisation" optional="hide"></field>
+                                    <field name="montant_investissement_reel" optional="hide"></field>
+                                    <field name="nombre_emplois_reel" optional="hide"></field>
+                                    <field name="observation_suivi" optional="hide"></field>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group string ="Information Général Dossier">
+                                            <!-- ELEMENT PRE CRUI -->
+                                            <field name="projet_id"></field>
+                                        </group>
+                                        <group string ="SUIVI">
+                                            <field name="date_suivi_effectue"></field>
+                                            <field name="etat_avancement"></field>
+                                            <field name="date_autorisation"></field>
+                                            <field name="date_lancement_effective"></field>
+                                            <field name="date_fin_travaux"></field>
+                                            
+                                        </group>
+                                        <group string ="SUIVI">
+                                            
+                                            <field name="date_demarage_activite"></field>
+                                            <field name="pourcentage_realisation"></field>
+                                            <field name="montant_investissement_reel"></field>
+                                            <field name="nombre_emplois_reel"></field>
+                                            <field name="observation_suivi"></field>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="KPIS">
+                            <group colspan="3">
+                                <group>
+                                    <field name="delai_moyen_reactivite_spoc"></field>
+                                    <field name="delai_moyen_traitement_projet"></field>
+                                    <field name="pourcentage_dossiers_soumis_30j"></field>
+                                    <field name="delai_moyen_examen_crui"></field>
+                                    <field name="pourcentage_dossiers_examines_30j"></field>
+                                    <field name="pourcentage_dossiers_approuves"></field>
+                                    <field name="projet_approuve"></field>
+                                    <field name="pourcentage_investissement_realise"></field>
+                                    <field name="pourcentage_emplois_realises"></field>
+                                    <field name="delai_moyen_dossiers"></field>
+                                    <field name="delai_moyen_delivrance_acte"></field>      
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_commission_crui_form" model="ir.ui.view">
+        <field name="name">commission.crui.form</field>
+        <field name="model">commission.crui</field>
+        <field name="arch" type="xml">
+            <form string="Commission CRUI">
+                <group>
+                    <field name="name"/>
+                    <field name="date_passage"/>
+                    <field name="membre_ids" widget="many2many_tags"/>
+                    <field name="dossier_id" readonly="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_commission_crui_popup" model="ir.actions.act_window">
+        <field name="name">Créer une Commission</field>
+        <field name="res_model">commission.crui</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_commission_crui_form"/>
+        <field name="target">new</field> <!-- pour le popup modal -->
+    </record>
+
+    <record id="view_projet_pivot" model="ir.ui.view">
+        <field name="name">projet.pivot</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse des projets" sample="1">
+                <field name="prefecture_id" type="row"/>
+                <field name="statut" type="col"/>
+                <field name="montant_investissement" type="measure"/>
+                <field name="nombre_emploi" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="projet_action" model="ir.actions.act_window">
+        <field name="name">Projets</field>
+        <field name="res_model">projet</field>
+        <field name="view_mode">list,form,pivot</field>
+    </record>    
+</odoo>

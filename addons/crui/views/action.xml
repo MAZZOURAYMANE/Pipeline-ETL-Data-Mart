@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_action">
+            <field name="name">ACTION CRUI</field>
+            <field name="res_model">action</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="view_action_list" model="ir.ui.view">
+            <field name="name">action.list</field>
+            <field name="model">action</field>
+            <field name="arch" type="xml">
+                <list string="Actions CRUI">
+                    <field name="name"/>
+                    <field name="partenaire_id"/>
+                    <field name="date_lancement"/>
+                    <field name="date_retour"/>
+                    <field name="delai_jours"/>
+                    <field name="duree_reelle"/>
+                    <field name="statut"/>
+                    <field name="alerte_retard" widget="boolean_button"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire -->
+        <record id="view_action_form" model="ir.ui.view">
+            <field name="name">action.form</field>
+            <field name="model">action</field>
+            <field name="arch" type="xml">
+                <form string="Action CRUI">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="partenaire_id"/>
+                            <field name="dossier_id"/>
+                        </group>
+                        <group>
+                            <field name="date_lancement"/>
+                            <field name="date_retour"/>
+                            <field name="delai_jours"/>
+                            <field name="duree_reelle" readonly="1"/>
+                            <field name="alerte_retard" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="statut"/>
+                            <field name="observation"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Filtre pour les actions en retard -->
+        <record id="action_action_filter" model="ir.ui.view">
+            <field name="name">action.search</field>
+            <field name="model">action</field>
+            <field name="arch" type="xml">
+                <search string="Recherche Actions">
+                    <field name="name"/>
+                    <field name="statut"/>
+                    <filter name="alerte_retard" string="Actions en retard" domain="[('alerte_retard','=',True)]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

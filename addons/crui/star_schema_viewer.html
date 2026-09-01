@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schema en Etoile — Data Warehouse CRUI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f1a;
+      --surface: #151828;
+      --surface2: #1c2038;
+      --border: #2a2f52;
+      --text: #e2e8f0;
+      --muted: #8892b0;
+      --silver: #64c8ff;
+      --fact-color: #ff6b6b;
+      --dim-color: #4ade80;
+      --key-color: #f7c948;
+      --fk-color: #fb923c;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1f3a 0%, #0d0f1a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .logo { font-size: 28px; }
+    header h1 { font-size: 1.4rem; font-weight: 700; }
+    header p { font-size: 0.85rem; color: var(--muted); margin-top: 3px; }
+    .legend {
+      display: flex;
+      gap: 20px;
+      padding: 14px 40px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); }
+    .dot { width: 12px; height: 12px; border-radius: 3px; }
+    .canvas {
+      position: relative;
+      width: 100%;
+      min-height: 90vh;
+      padding-bottom: 80px;
+    }
+    svg#lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .table-card {
+      position: absolute;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      width: 270px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 1;
+    }
+    .table-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+      z-index: 10;
+    }
+    .table-card.fact { border-color: var(--fact-color); }
+    .table-card.dim  { border-color: var(--dim-color); }
+    .card-header {
+      padding: 14px 16px;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .card-header.fact { background: linear-gradient(90deg, rgba(255,107,107,0.2), rgba(255,107,107,0.05)); }
+    .card-header.dim  { background: linear-gradient(90deg, rgba(74,222,128,0.2), rgba(74,222,128,0.05)); }
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+    .badge.fact { background: rgba(255,107,107,0.25); color: var(--fact-color); border: 1px solid rgba(255,107,107,0.4); }
+    .badge.dim  { background: rgba(74,222,128,0.2);  color: var(--dim-color);  border: 1px solid rgba(74,222,128,0.35); }
+    .schema-label { font-size: 0.65rem; color: var(--muted); font-weight: 500; }
+    .table-name { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .columns {
+      padding: 8px 0;
+      max-height: 360px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .col-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 16px;
+      font-size: 0.78rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.15s;
+    }
+    .col-row:hover { background: rgba(255,255,255,0.04); }
+    .col-row:last-child { border-bottom: none; }
+    .col-icon { font-size: 11px; width: 18px; text-align: center; flex-shrink: 0; }
+    .col-name { flex: 1; color: var(--text); }
+    .col-name.pk  { color: var(--key-color); font-weight: 600; }
+    .col-name.fk  { color: var(--fk-color); }
+    .col-name.num { color: var(--silver); }
+    .col-name.pct { color: #f472b6; }
+    .col-name.kpi { color: #a78bfa; }
+    .col-type {
+      font-size: 0.68rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    #dim_date     { top: 80px;  left: 40px; }
+    #dim_project  { top: 80px;  right: 40px; }
+    #fct_dossier  { top: 340px; left: calc(50% - 280px); }
+    #fct_followup { top: 340px; left: calc(50% + 10px); }
+    .info-panel {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 10px 24px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .stat strong { color: var(--text); font-size: 1rem; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">&#11088;</div>
+  <div>
+    <h1>Schema en Etoile &mdash; Data Warehouse CRUI</h1>
+    <p>Base <strong>warehouse</strong> &middot; Schema <strong>public_marts</strong> &middot; PostgreSQL 15 &middot; Port 5433</p>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:#ff6b6b;"></div> Table de Faits (FACT)</div>
+  <div class="legend-item"><div class="dot" style="background:#4ade80;"></div> Table de Dimension (DIM)</div>
+  <div class="legend-item"><div class="dot" style="background:#f7c948;"></div> Cle Primaire (PK)</div>
+  <div class="legend-item"><div class="dot" style="background:#fb923c;"></div> Cle Etrangere (FK)</div>
+  <div class="legend-item"><div class="dot" style="background:#64c8ff;"></div> Mesure Numerique</div>
+  <div class="legend-item"><div class="dot" style="background:#f472b6;"></div> Indicateur %</div>
+  <div class="legend-item"><div class="dot" style="background:#a78bfa;"></div> Indicateur Delai/Boolean</div>
+</div>
+
+<div class="canvas" id="canvas">
+  <svg id="lines"></svg>
+
+  <!-- dim_date -->
+  <div class="table-card dim" id="dim_date">
+    <div class="card-header dim">
+      <div>
+        <div class="schema-label">public_marts</div>
+        <div class="table-name">dim_date</div>
+      </div>
+      <div class="badge dim">DIM</div>
+    </div>
+    <div class="columns">
+      <div class="col-row"><span class="col-icon">&#128273;</span><span class="col-name pk">date_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">day_date</span><span class="col-type">date</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">year</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">quarter</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">month</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">month_name</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">week_of_year</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">day_of_month</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">day_of_week</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">day_name</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">is_working_day</span><span class="col-type">boolean</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">quarter_label</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">year_month</span><span class="col-type">text</span></div>
+    </div>
+  </div>
+
+  <!-- dim_project -->
+  <div class="table-card dim" id="dim_project">
+    <div class="card-header dim">
+      <div>
+        <div class="schema-label">public_marts</div>
+        <div class="table-name">dim_project</div>
+      </div>
+      <div class="badge dim">DIM</div>
+    </div>
+    <div class="columns">
+      <div class="col-row"><span class="col-icon">&#128273;</span><span class="col-name pk">projet_id</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">identifiant_projet</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">reference</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">projet_name</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">statut_projet</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">raison_social</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">forme_juridique</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">consistance</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">surface</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name num">montant_investissement</span><span class="col-type">numeric</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name num">nombre_emploi</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name num">duree_projet_days</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">prefecture_name</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">commune_name</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">foncier_type</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">petitionnaire_name</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">date_lancement</span><span class="col-type">timestamp</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">date_achevement</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- fct_dossier_processing -->
+  <div class="table-card fact" id="fct_dossier">
+    <div class="card-header fact">
+      <div>
+        <div class="schema-label">public_marts</div>
+        <div class="table-name">fct_dossier_processing</div>
+      </div>
+      <div class="badge fact">FACT</div>
+    </div>
+    <div class="columns">
+      <div class="col-row"><span class="col-icon">&#128273;</span><span class="col-name pk">dossier_id</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">projet_id</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_depot_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_diffusion_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_passage_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_delivrance_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">statut_dossier</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">decision_crui</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">decision_dossier</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">avis_wali</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">avis_recours_ministeriel</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">delai_traitement_working_days</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">delai_examen_crui_working_days</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">delai_delivrance_act_working_days</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">delai_total_working_days</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">delai_instruction_crui_working_days</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#10003;</span><span class="col-name kpi">is_submitted_within_30j</span><span class="col-type">boolean</span></div>
+      <div class="col-row"><span class="col-icon">&#10003;</span><span class="col-name kpi">is_examined_within_30j</span><span class="col-type">boolean</span></div>
+      <div class="col-row"><span class="col-icon">&#10003;</span><span class="col-name kpi">is_approved_crui</span><span class="col-type">boolean</span></div>
+    </div>
+  </div>
+
+  <!-- fct_project_followup -->
+  <div class="table-card fact" id="fct_followup">
+    <div class="card-header fact">
+      <div>
+        <div class="schema-label">public_marts</div>
+        <div class="table-name">fct_project_followup</div>
+      </div>
+      <div class="badge fact">FACT</div>
+    </div>
+    <div class="columns">
+      <div class="col-row"><span class="col-icon">&#128273;</span><span class="col-name pk">enquete_id</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">projet_id</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_suivi_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_autorisation_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128279;</span><span class="col-name fk">date_fin_travaux_key</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">etat_avancement</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&nbsp;</span><span class="col-name">observation_suivi</span><span class="col-type">text</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">montant_investissement_reel</span><span class="col-type">numeric</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">montant_investissement_prevu</span><span class="col-type">numeric</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">nombre_emplois_reel</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128207;</span><span class="col-name num">nombre_emploi_prevu</span><span class="col-type">integer</span></div>
+      <div class="col-row"><span class="col-icon">&#128202;</span><span class="col-name pct">pct_investissement_realise</span><span class="col-type">numeric</span></div>
+      <div class="col-row"><span class="col-icon">&#128202;</span><span class="col-name pct">pct_emplois_realises</span><span class="col-type">numeric</span></div>
+      <div class="col-row"><span class="col-icon">&#128202;</span><span class="col-name pct">pourcentage_realisation</span><span class="col-type">numeric</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="info-panel">
+  <div class="stat"><strong>4</strong>&nbsp;tables</div>
+  <div>|</div>
+  <div class="stat"><strong>98</strong>&nbsp;colonnes</div>
+  <div>|</div>
+  <div class="stat"><strong>2</strong>&nbsp;Faits &nbsp;<strong>2</strong>&nbsp;Dimensions</div>
+  <div>|</div>
+  <div class="stat" style="color:var(--muted)">Base:&nbsp;<strong>warehouse</strong>&nbsp;&middot;&nbsp;Schema:&nbsp;<strong>public_marts</strong></div>
+</div>
+
+<script>
+  function getPos(el) {
+    const r  = el.getBoundingClientRect();
+    const cr = document.getElementById('canvas').getBoundingClientRect();
+    return {
+      top:    r.top    - cr.top,
+      bottom: r.bottom - cr.top,
+      left:   r.left   - cr.left,
+      right:  r.right  - cr.left,
+      midX:   r.left   - cr.left + r.width  / 2,
+      midY:   r.top    - cr.top  + r.height / 2,
+    };
+  }
+
+  function drawLines() {
+    const svg = document.getElementById('lines');
+    const canvas = document.getElementById('canvas');
+    svg.setAttribute('width',  canvas.scrollWidth);
+    svg.setAttribute('height', canvas.scrollHeight);
+    svg.innerHTML = '';
+
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    ['green-arrow'].forEach(id => {
+      const m = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+      m.setAttribute('id', id);
+      m.setAttribute('markerWidth', '8');
+      m.setAttribute('markerHeight', '8');
+      m.setAttribute('refX', '4');
+      m.setAttribute('refY', '4');
+      m.setAttribute('orient', 'auto');
+      const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      poly.setAttribute('points', '0 0, 8 4, 0 8');
+      poly.setAttribute('fill', '#4ade80');
+      m.appendChild(poly);
+      defs.appendChild(m);
+    });
+    svg.appendChild(defs);
+
+    const connections = [
+      { from: 'dim_date',    to: 'fct_dossier',  label: 'date_*_key' },
+      { from: 'dim_date',    to: 'fct_followup',  label: 'date_*_key' },
+      { from: 'dim_project', to: 'fct_dossier',   label: 'projet_id'  },
+      { from: 'dim_project', to: 'fct_followup',  label: 'projet_id'  },
+    ];
+
+    connections.forEach(({ from, to, label }) => {
+      const f = getPos(document.getElementById(from));
+      const t = getPos(document.getElementById(to));
+
+      const x1 = f.midX;
+      const y1 = f.bottom;
+      const x2 = t.midX;
+      const y2 = t.top;
+      const cy = (y1 + y2) / 2;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M${x1},${y1} C${x1},${cy} ${x2},${cy} ${x2},${y2}`);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', '#4ade80');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('stroke-dasharray', '6 4');
+      path.setAttribute('opacity', '0.5');
+      path.setAttribute('marker-end', 'url(#green-arrow)');
+      svg.appendChild(path);
+
+      const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      txt.setAttribute('x', (x1 + x2) / 2);
+      txt.setAttribute('y', cy - 4);
+      txt.setAttribute('text-anchor', 'middle');
+      txt.setAttribute('fill', '#4ade80');
+      txt.setAttribute('font-size', '10');
+      txt.setAttribute('font-family', 'Inter, sans-serif');
+      txt.setAttribute('opacity', '0.75');
+      txt.textContent = label;
+      svg.appendChild(txt);
+    });
+  }
+
+  window.addEventListener('load', () => setTimeout(drawLines, 150));
+  window.addEventListener('resize', drawLines);
+</script>
+</body>
+</html>

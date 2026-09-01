@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_dashboard">
+            <field name="name">DASHBOARD</field>
+            <field name="res_model">ir.ui.view</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

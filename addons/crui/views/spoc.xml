@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_spoc">
+            <field name="name">SPOC</field>
+            <field name="res_model">conseiller</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

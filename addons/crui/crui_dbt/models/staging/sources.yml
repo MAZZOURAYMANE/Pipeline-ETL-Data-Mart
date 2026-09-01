@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: odoo_raw
+    description: "Raw tables ingested from the Odoo production PostgreSQL database."
+    schema: raw_odoo
+    tables:
+      - name: projet
+        description: "Core investment project records."
+      - name: dossier
+        description: "Investment file/dossier processing records linked to a project."
+      - name: soumission
+        description: "Investor submissions before SPOC diffusion."
+      - name: enquete
+        description: "Post-delivery project follow-up surveys."
+      - name: commission_crui
+        description: "CRUI Commission meetings records."
+      - name: action
+        description: "Actions assigned to partners for specific dossiers."
+      - name: act
+        description: "Reference table of administrative act types."
+      - name: commune
+        description: "Reference table of communes."
+      - name: prefecture
+        description: "Reference table of prefectures and provinces."
+      - name: secteur
+        description: "Reference table of investment sectors."
+      - name: macrosecteur
+        description: "Reference table of macro investment sectors."
+      - name: foncier
+        description: "Reference table of land/property statuses."
+      - name: res_partner
+        description: "Odoo core partners (investors, members, petitionnaires)."
+      - name: res_users
+        description: "Odoo system users (SPOCs / Conseillers)."

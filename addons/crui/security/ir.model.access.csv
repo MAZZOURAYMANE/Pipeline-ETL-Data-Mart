@@ -1,0 +1,37 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_projet_user,Projet user,model_projet,group_crui_user,1,1,1,1
+access_projet_manager,Projet manager,model_projet,group_crui_manager,1,1,1,1
+access_secteur_user,Secteur user,model_secteur,group_crui_user,1,1,1,1
+access_secteur_manager,Secteur manager,model_secteur,group_crui_manager,1,1,1,1
+access_macrosecteur_user,Macrosecteur user,model_macrosecteur,group_crui_user,1,1,1,1
+access_macrosecteur_manager,Macrosecteur manager,model_macrosecteur,group_crui_manager,1,1,1,1
+access_commune_user,Commune user,model_commune,group_crui_user,1,1,1,1
+access_commune_manager,Commune manager,model_commune,group_crui_manager,1,1,1,1
+access_foncier_user,Foncier user,model_foncier,group_crui_user,1,1,1,1
+access_foncier_manager,Foncier manager,model_foncier,group_crui_manager,1,1,1,1
+access_prefecture_user,Prefecture user,model_prefecture,group_crui_user,1,1,1,1
+access_prefecture_manager,Prefecture manager,model_prefecture,group_crui_manager,1,1,1,1
+access_dossier_user,Dossier user,model_dossier,group_crui_user,1,1,1,1
+access_dossier_manager,Dossier manager,model_dossier,group_crui_manager,1,1,1,1
+access_act_user,Act user,model_act,group_crui_user,1,1,1,1
+access_act_manager,Act manager,model_act,group_crui_manager,1,1,1,1
+access_action_user,Action user,model_action,group_crui_user,1,1,1,1
+access_action_manager,Action manager,model_action,group_crui_manager,1,1,1,1
+access_conseiller_user,Conseiller user,model_conseiller,group_crui_user,1,1,1,1
+access_conseiller_manager,Conseiller manager,model_conseiller,group_crui_manager,1,1,1,1
+access_visite_user,Visite user,model_visite,group_crui_user,1,1,1,1
+access_visite_manager,Visite manager,model_visite,group_crui_manager,1,1,1,1
+access_soumission_user,Soumission user,model_soumission,group_crui_user,1,1,1,1
+access_soumission_manager,Soumission manager,model_soumission,group_crui_manager,1,1,1,1
+access_enquete_user,Enquete user,model_enquete,group_crui_user,1,1,1,1
+access_enquete_manager,Enquete manager,model_enquete,group_crui_manager,1,1,1,1
+access_etat_bilan_projet_user,Etat bilan projet user,model_etat_bilan_projet,group_crui_user,1,1,1,1
+access_etat_bilan_projet_manager,Etat bilan projet manager,model_etat_bilan_projet,group_crui_manager,1,1,1,1
+access_commission_crui_user,Commission CRUI user,model_commission_crui,group_crui_user,1,1,1,1
+access_commission_crui_manager,Commission CRUI manager,model_commission_crui,group_crui_manager,1,1,1,1
+access_ordre_jour_wizard_user,Ordre jour wizard user,model_ordre_jour_wizard,group_crui_user,1,1,1,1
+access_ordre_jour_wizard_manager,Ordre jour wizard manager,model_ordre_jour_wizard,group_crui_manager,1,1,1,1
+access_situation_projet_wizard_user,Situation projet wizard user,model_situation_projet_wizard,group_crui_user,1,1,1,1
+access_situation_projet_wizard_manager,Situation projet wizard manager,model_situation_projet_wizard,group_crui_manager,1,1,1,1
+access_fiche_crui_wizard_user,Fiche CRUI wizard user,model_fiche_crui_wizard,group_crui_user,1,1,1,1
+access_fiche_crui_wizard_manager,Fiche CRUI wizard manager,model_fiche_crui_wizard,group_crui_manager,1,1,1,1

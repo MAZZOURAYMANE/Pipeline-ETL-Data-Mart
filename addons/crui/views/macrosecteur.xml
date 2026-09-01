@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_macrosecteur">
+            <field name="name">MACRO SECTEUR CRUI</field>
+            <field name="res_model">macrosecteur</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,95 @@
+<odoo>
+    <record id="projet_dashboard_view" model="ir.ui.view">
+        <field name="name">Projet Dashboard</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_kanban_color_red">
+               <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_details">
+                            <h2 class="oe_kanban_text_center">📊 LES 11 INDICATEURS DE PERFORMANCES CRUI 📊</h2>
+                            <div class="oe_kanban_text_center">
+                                <strong>Année :</strong> <span><field name="annee"/></span>
+                            </div>
+                            <div class="oe_kanban_center">
+                                <!-- Ligne 1 -->
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#1E90FF; color:#fff;">
+                                    <strong><i class="fa fa-clock-o"></i> Indicateur 1:</strong> 
+                                    <span><field name="delai_moyen_dossiers"/> Jours</span>
+                                </div>
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#32CD32; color:#fff;">
+                                    <strong><i class="fa fa-check-circle"></i> Indicateur 2:</strong> 
+                                    <span><field name="pourcentage_dossiers_soumis_30j"/> %</span>
+                                </div>
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#FFA500; color:#fff;">
+                                    <strong><i class="fa fa-bar-chart"></i> Indicateur 3:</strong> 
+                                    <span><field name="delai_moyen_examen_crui"/> Jours</span>
+                                </div>
+                                <!-- Ligne 2 -->
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#DC143C; color:#fff;">
+                                    <strong><i class="fa fa-line-chart"></i> Indicateur 4:</strong> 
+                                    <span><field name="pourcentage_dossiers_examines_30j"/> %</span>
+                                </div>
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#20B2AA; color:#fff;">
+                                    <strong><i class="fa fa-thumbs-up"></i> Indicateur 5:</strong> 
+                                    <span><field name="pourcentage_dossiers_approuves"/> %</span>
+                                </div>
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#8A2BE2; color:#fff;">
+                                    <strong><i class="fa fa-money"></i> Montant Investissement:</strong> 
+                                    <span><field name="montant_investissement"/> MDH</span>
+                                </div>
+                                <!-- Ligne 3 -->
+                                <div class="oe_kanban_column oe_kanban_box" style="background-color:#FF4500; color:#fff;">
+                                    <strong><i class="fa fa-users"></i> Nombre d'emplois:</strong> 
+                                    <span><field name="nombre_emploi"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="projet_dashboard_search" model="ir.ui.view">
+        <field name="name">Projet Dashboard Search</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="annee" string="Année" domain="[('annee', '=', context_today().year)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_projet_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord des Projets</field>
+        <field name="res_model">projet</field>
+        <field name="view_mode">kanban,graph</field>
+        <field name="view_id" ref="projet_dashboard_view"/>
+        <field name="search_view_id" ref="projet_dashboard_search"/>
+    </record>
+    <record id="projet_dashboard_graph_view" model="ir.ui.view">
+        <field name="name">projet.graph.view</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <graph string="Indicateurs CRUI par année" type="bar">
+                <field name="annee" type="row"/>
+                <field name="montant_investissement" type="measure"/>
+                <field name="nombre_emploi" type="measure"/>
+                <field name="delai_moyen_dossiers" type="measure"/>
+                <field name="pourcentage_dossiers_soumis_30j" type="measure"/>
+                <field name="pourcentage_dossiers_examines_30j" type="measure"/>
+                <field name="pourcentage_dossiers_approuves" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="projet_graph_search" model="ir.ui.view">
+        <field name="name">projet.graph.search</field>
+        <field name="model">projet</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="annee"/>
+                <filter name="annee_courante" string="Année courante" domain="[('annee', '=', context_today().year)]"/>
+                <filter name="statut_nouveau" string="Nouveaux" domain="[('statut', '=', 'nouveau')]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

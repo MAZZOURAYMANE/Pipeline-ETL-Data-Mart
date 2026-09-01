@@ -1,0 +1,14 @@
+<odoo>
+    <!-- Groupe : utilisateurs « classiques » -->
+    <record id="group_crui_user" model="res.groups">
+        <field name="name">CRUI – Utilisateur</field>
+        <!-- range-le dans la catégorie cachée pour éviter d’encombrer les paramètres -->
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <!-- Groupe : managers (cheffe division, chefs de pôle) -->
+    <record id="group_crui_manager" model="res.groups">
+        <field name="name">CRUI – Manager</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

@@ -1,0 +1,195 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="crui_dossier1_list_view">
+            <field name="name">dossier.list</field>
+            <field name="model">dossier</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="statut_dossier"></field>
+                    <!-- ELEMENT PRE CRUI -->
+                    <field name="name" optional="hide"></field>
+                    <field name="projet_id"></field>
+                    <field name="dossier_id"></field>
+                    <field name="reference" optional="hide"></field>
+                    <field name="state"></field>
+                    <field name="actes_ids" optional="hide" widget="many2many_tags"></field>
+                    <field name="date_depot" optional="hide"></field>
+                    <field name="date_retour_spoc" optional="hide"></field>
+                    <field name="date_diffusion" optional="hide"></field>
+                    <field name="observation_traitement_spoc" optional="hide"></field>
+                    <field name="observation_spoc" optional="hide"></field>
+                    <field name="etat_procedure" optional="hide"></field>
+                    <!-- ELEMENT CRUI -->
+                    <field name="date_passage" optional="hide"></field>
+                    <field name="decision_crui" optional="hide"></field>
+                    <field name="argument_crui" optional="hide"></field>
+                    <field name="delai_instruction_CRUI" optional="hide"></field>
+                    <field name="delai_instruction_CRUI_dossier_sature" optional="hide"></field>
+                    <!-- ELEMENT RECOURS GRACIEUX -->
+                    
+                    <field name="date_depot_lettre_recours" optional="hide"></field>
+                    <field name="recours_wali" optional="hide"></field>
+                    <field name="avis_wali" optional="hide"></field>
+                    <field name="etat_decision_wali" optional="hide"></field>
+                    <!-- ELEMENT RECOURS MINISTERIEL -->
+
+                    <field name="date_comite_ministeriel" optional="hide"></field>
+                    <field name="recours_comite_ministeriel" optional="hide"></field>
+                    <field name="avis_recours_ministeriel" optional="hide"></field>
+                    <field name="decision_comite_ministeriel" optional="hide"></field>
+                    <!-- CAS FAVORABLE/FAVORABLE SOUS RESERVE -->
+                    <!-- avant delivrance d'acte -->
+
+                    <field name="date_insertion" optional="hide"></field>
+                    <field name="observation_post_crui" optional="hide"></field>
+                    <field name="date_leve_reserve" optional="hide"></field>
+                        <!-- #aprés delivrance d'acte -->
+                    <field name="date_delivrance" optional="hide"></field>
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="crui_dossier_form_view">
+            <field name="name">dossier.form</field>
+            <field name="model">dossier</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="statut_dossier" widget="statusbar"></field>
+                    </header>
+                    
+                    <group>
+                        <group string ="Information Général Dossier">
+                            <field name="statut_dossier"></field>
+                            <!-- ELEMENT PRE CRUI -->
+                            <field name="projet_id"></field>
+                            <field name="dossier_id"></field>
+                            <field name="reference"></field>
+                            <field name="state"></field>
+                            <field name="actes_ids" widget="many2many_tags"></field>
+                            <field name="observation_spoc"></field>
+                            <field name="etat_procedure"></field>
+                        </group>
+                        <group string ="Information PRE-CRUI" invisible=" statut_dossier!= 'precrui'">
+                            <field name="date_depot"></field>
+                            <field name="date_retour_spoc"></field>
+                            <field name="date_diffusion"></field>
+                            <field name="observation_traitement_spoc"></field>
+                            <field name="delai_moyen_traitement"></field>
+                        </group>
+                        <group string ="Information CRUI" invisible=" statut_dossier!= 'crui'">
+                            <field name="date_passage" readonly="not date_diffusion"></field>
+                            <field name="decision_crui"></field>
+                            <field name="argument_crui"></field>
+                            <field name="remarque_crui"></field>
+                            
+                        </group>
+                        <group string ="RECOURS WALI" invisible=" statut_dossier!= 'crui'">
+                            <field name="date_depot_lettre_recours"></field>
+                            <field name="recours_wali"></field>
+                            <field name="avis_wali"></field>
+                            <field name="etat_decision_wali"></field>
+                        </group>
+                        <group string ="RECOURS MINISTERIEL" invisible=" statut_dossier!= 'crui'">
+                            <field name="date_comite_ministeriel"></field>
+                            <field name="recours_comite_ministeriel"></field>
+                            <field name="avis_recours_ministeriel"></field>
+                            <field name="decision_comite_ministeriel"></field>
+                        </group>
+                        <group string ="POST CRUI / DELIVRANCE ACT" invisible=" statut_dossier!= 'postcrui'">
+                            <field name="date_insertion"></field>
+                            <field name="observation_post_crui"></field>
+                            <field name="action_ids" mode="list,form">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="partenaire_id"/>
+                                    <field name="date_lancement"/>
+                                    <field name="date_retour"/>
+                                    <field name="delai_jours"/>
+                                    <field name="duree_reelle"/>
+                                    <field name="alerte_retard"/>
+                                    <field name="statut"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="partenaire_id"/>
+                                        <field name="date_lancement"/>
+                                        <field name="date_retour"/>
+                                        <field name="delai_jours"/>
+                                        <field name="duree_reelle" readonly="1"/>
+                                        <field name="alerte_retard" readonly="1"/>
+                                        <field name="statut"/>
+                                        <field name="observation"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <field name="date_leve_reserve"></field>
+                            <field name="date_delivrance"></field>
+
+                            
+                        </group>
+                        <group string ="POST CRUI / DELIVRANCE ACT" invisible=" statut_dossier!= 'suivi'">
+                            <field name="date_insertion"></field>
+                            <field name="observation_post_crui"></field>
+                            <field name="date_leve_reserve"></field>
+                            <field name="date_delivrance"></field>
+                        </group>
+                    </group>
+                       
+                    <notebook>
+                        <page name="KPIS">
+                            <group colspan="3">
+                                <group>
+                                    <field name="delai_moyen_traitement"></field>    
+                                    <field name="soumis_30j"></field>  
+                                    <field name="delai_examen_crui"></field>  
+                                    <field name="examine_30j"></field>  
+                                    <field name="approuve_crui"></field>  
+                                    <field name="delai_delivrance_act"></field> 
+                                    <field name="delai_total_traitement_dossier"></field> 
+                                    <field name="delai_instruction_CRUI_dossier_sature"></field>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Commissions CRUI">
+                            <field name="commission_id" mode="list,form">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="date_passage"/>
+                                    <field name="membre_ids" widget="many2many_tags"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="date_passage"/>
+                                        <field name="membre_ids" widget="many2many_tags"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_dossier_pivot" model="ir.ui.view">
+            <field name="name">dossier.pivot</field>
+            <field name="model">dossier</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse des dossiers" sample="1">
+                    <field name="date_depot" type="row" interval="month"/>
+                    <field name="decision_crui" type="col"/>
+                    <field name="delai_moyen_traitement" type="measure"/>
+                    <field name="delai_examen_crui" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_dossier">
+            <field name="name">Dossiers CRUI</field>
+            <field name="res_model">dossier</field>
+            <field name="view_mode">list,form,pivot</field>
+            <field name="view_id" ref="crui_dossier1_list_view"/>
+        </record>
+    </data>
+</odoo>

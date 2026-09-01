@@ -1,0 +1,84 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="crui_soumission1_list_view">
+            <field name="name">soumission.list</field>
+            <field name="model">soumission</field>
+            <field name="arch" type="xml">
+                 <list>
+                    <field name="dossier_id"></field>
+                    <field name="projet_id"></field>
+                    
+                    <field name="state"></field>
+                    <field name="actes_ids" optional="hide" widget="many2many_tags"></field>
+                    <field name="reference" optional="hide"></field>
+                    <field name="date_depot" optional="hide"></field>
+                    <field name="date_retour_spoc" optional="hide"></field>
+                    <field name="date_diffusion" optional="hide"></field>
+                    <field name="delai_reactivite_spoc" optional="hide"></field>
+                    <field name="statut_dossier"></field>
+                    <field name="observation_traitement_spoc" optional="hide"></field>
+                    <field name="observation_spoc" optional="hide"></field>
+                    <field name="etat_procedure" optional="show"></field>
+                    <button string="Dupliquer" type="object" name="duplicate_selected_soumission" class="oe_highlight"/>
+                    <button string="Diffuser" type="object" name="action_diffuser" class="oe_highlight"/>
+
+                </list>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="crui_soumission_form_view">
+            <field name="name">soumission.form</field>
+            <field name="model">soumission</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="statut_dossier" widget="statusbar"></field>
+                    </header>
+                    <group string="Traitement Pré-crui">
+                        <group>
+                            <field name="dossier_id"></field>
+                            <field name="projet_id"></field>
+                            <field name="state"></field>
+                            <field name="actes_ids" widget="many2many_tags"></field>
+                            <field name="reference" ></field>
+                            <field name="observation_spoc"></field>
+                        </group>
+                        <group>
+                            <field name="date_depot"></field>
+                            <field name="date_retour_spoc" ></field>
+                            <field name="date_diffusion" ></field>
+                            <field name="delai_reactivite_spoc"></field>
+                            <field name="statut_dossier"></field>
+                            <field name="observation_traitement_spoc"></field>
+                            <field name="etat_procedure"></field>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_soumission_pivot" model="ir.ui.view">
+            <field name="name">soumission.pivot</field>
+            <field name="model">soumission</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse des soumissions" sample="1">
+                    <field name="date_depot" type="row" interval="month"/>
+                    <field name="state" type="col"/>
+                    <field name="delai_reactivite_spoc" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_view_soumission">
+            <field name="name">SOUMISSION CRUI</field>
+            <field name="res_model">soumission</field>
+            <field name="view_mode">list,form,pivot</field>
+            <field name="view_id" ref="crui_soumission1_list_view"/>
+        </record>
+        <record id="action_view_soumission" model="ir.actions.act_window">
+            <field name="name">Soumissions</field>
+            <field name="res_model">soumission</field>
+            <field name="view_mode">list,form,pivot</field>
+            <field name="domain">[]</field>
+        </record>
+    </data>
+</odoo>

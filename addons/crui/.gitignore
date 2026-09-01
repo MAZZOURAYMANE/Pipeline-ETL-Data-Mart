@@ -1,0 +1,23 @@
+# Airflow logs & temporary files (contains symlinks that block Windows Git)
+airflow/logs/
+**/logs/
+logs/
+
+# Airbyte external repository
+airbyte/
+
+# Python cache
+**/__pycache__/
+*.py[cod]
+*.pyc
+
+# Environment & OS files
+.DS_Store
+Thumbs.db
+.env
+*.swp
+
+# DBT target and run logs
+**/target/
+**/dbt_packages/
+

@@ -1,0 +1,17 @@
+<odoo>
+    <record id="projet_dashboard_graph" model="ir.ui.view">
+    <field name="name">Projet Dashboard Graph</field>
+    <field name="model">projet</field>
+    <field name="arch" type="xml">
+        <graph string="Évolution des indicateurs par année" type="bar">
+            <field name="annee" type="row"/>
+            <field name="pourcentage_dossiers_soumis_30j" type="measure"/>
+            <field name="pourcentage_dossiers_examines_30j" type="measure"/>
+            <field name="pourcentage_dossiers_approuves" type="measure"/>
+            <field name="delai_moyen_dossiers" type="measure"/>
+            <field name="delai_moyen_examen_crui" type="measure"/>
+        </graph>
+    </field>
+</record>
+    
+</odoo>

@@ -1,0 +1,21 @@
+crui_dbt:
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: analytical_user
+      password: analytical_password_secret
+      port: 5433
+      dbname: warehouse
+      schema: public
+      threads: 4
+    airflow:
+      type: postgres
+      host: warehouse-db
+      user: analytical_user
+      password: analytical_password_secret
+      port: 5432
+      dbname: warehouse
+      schema: public
+      threads: 4
+  target: dev
