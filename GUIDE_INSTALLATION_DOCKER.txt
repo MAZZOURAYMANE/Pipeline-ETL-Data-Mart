@@ -1,0 +1,110 @@
+GUIDE D'INSTALLATION DU PROJET CRUI AVEC DOCKER
+================================================
+
+Ce guide explique comment installer le projet sur un autre PC Windows avec Docker Desktop.
+
+1. PREPARER LE NOUVEAU PC
+-------------------------
+- Installer Docker Desktop : https://www.docker.com/products/docker-desktop/
+- Demarrer Docker Desktop et attendre que Docker indique qu'il est operationnel.
+- Verifier que Docker Compose est disponible en ouvrant PowerShell et en executant :
+
+  docker --version
+  docker compose version
+
+2. COPIER LE PROJET
+-------------------
+Copier le dossier complet du projet sur le nouveau PC, par exemple avec une cle USB,
+un disque externe, un partage reseau ou Git.
+
+Conserver au minimum les elements suivants :
+- Dockerfile
+- docker-compose.yml (a la racine)
+- config\
+- addons\
+
+Pour utiliser la plateforme analytique, conserver egalement les fichiers du dossier
+addons\crui, notamment son docker-compose.yml, airflow\ et crui_dbt\.
+
+3. DEMARRER ODOO
+----------------
+Dans PowerShell, se placer dans le dossier racine du projet. Adapter le chemin si besoin :
+
+  cd "C:\chemin\vers\odoo-docker"
+  docker compose up -d --build
+
+La premiere execution peut prendre plusieurs minutes : Docker telecharge les images
+necessaires et construit l'image Odoo personnalisee.
+
+Verifier l'etat des services :
+
+  docker compose ps
+
+Ouvrir ensuite Odoo dans un navigateur :
+
+  http://localhost:8069
+
+A la premiere utilisation, creer ou restaurer une base de donnees Odoo.
+
+4. DEMARRER AIRFLOW, MINIO ET LE DATA WAREHOUSE (FACULTATIF)
+------------------------------------------------------------
+Depuis un autre terminal PowerShell :
+
+  cd "C:\chemin\vers\odoo-docker\addons\crui"
+  docker compose up -d
+  docker compose ps
+
+Adresses des services :
+- Airflow : http://localhost:8080
+- MinIO : http://localhost:9001
+- API MinIO : http://localhost:9000
+
+Les identifiants de ces services sont definis dans le fichier
+addons\crui\docker-compose.yml. Changez-les avant toute exposition sur un reseau.
+
+5. ARRETER OU RELANCER LES SERVICES
+-----------------------------------
+Pour Odoo, depuis la racine du projet :
+
+  docker compose down
+  docker compose up -d
+
+Pour la plateforme analytique, depuis addons\crui :
+
+  docker compose down
+  docker compose up -d
+
+La commande "docker compose down" arrete et supprime les conteneurs, mais conserve
+normalement les volumes nommes et donc leurs donnees. Ne pas ajouter l'option -v si
+vous souhaitez conserver ces volumes.
+
+6. TRANSFERER LES DONNEES EXISTANTES
+------------------------------------
+Copier uniquement les fichiers du projet ne transfere pas les bases PostgreSQL,
+le filestore Odoo, les donnees MinIO ni les metadonnees Airflow : ces donnees sont
+stockees dans des volumes Docker.
+
+Pour Odoo, creer une sauvegarde de la base depuis le gestionnaire de bases de donnees
+d'Odoo en incluant le filestore, puis restaurer cette archive sur le nouveau PC.
+
+Pour retrouver aussi les donnees Airflow, MinIO et du data warehouse, sauvegarder et
+restaurer leurs volumes Docker separement avant de supprimer l'ancien environnement.
+
+7. DEPANNAGE RAPIDE
+-------------------
+Consulter les journaux Odoo et PostgreSQL :
+
+  docker compose logs -f web db
+
+Consulter les journaux de la plateforme analytique (depuis addons\crui) :
+
+  docker compose logs -f airflow-webserver airflow-scheduler minio warehouse-db
+
+Si le port est deja utilise, arreter l'application qui l'occupe ou modifier le port
+publie dans le fichier docker-compose.yml correspondant.
+
+SECURITE
+--------
+Les fichiers Compose du projet contiennent des mots de passe en clair. Ne pas publier
+ces fichiers sur un depot public sans les remplacer par des secrets et changer les
+mots de passe avant d'exposer les services sur un reseau.
